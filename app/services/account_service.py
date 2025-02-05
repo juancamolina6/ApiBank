@@ -1,5 +1,4 @@
 from datetime import datetime
-import uuid
 from app.repositories.account_repository import AccountRepository
 from app.models.account_model import AccountCreate, AccountResponse
 from fastapi import HTTPException
@@ -11,11 +10,15 @@ class AccountService:
         self.repository = repository
 
     async def create_account(self, account_data: AccountCreate) -> str:
+        # Verificar si el ID ya existe
+        existing_account = await self.repository.get_account_by_id(account_data.account_id)
+        if existing_account:
+            raise HTTPException(status_code=400, detail="El account_id ya existe, debe ser único")
         account_dict = account_data.dict()
         account_dict.update({
-            "balance": account_dict.pop("initial_balance", 0.0),
+            
+            "balance": account_dict.pop("balance", 0.0),
             "created_at": datetime.now(),  # Asegurar que se crea este campo
-            "account_id": str(uuid.uuid4())
             })
         return await self.repository.create_account(account_dict)
 

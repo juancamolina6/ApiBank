@@ -26,4 +26,9 @@ class AccountRepository:
             account.pop("_id", None)
             accounts.append(account)
         return accounts
+        
+    async def get_account_by_id(self, account_id: str):
+        return await accounts_collection.find_one({"account_id": account_id})
+
+
 

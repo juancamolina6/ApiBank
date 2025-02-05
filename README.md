@@ -22,7 +22,7 @@ Esta es una API RESTful para un banco que permite a los usuarios crear cuentas b
 ```json
 {
   "holder_name": "Juan Pérez",
-  "initial_balance": 1000.0
+  "balance": 1000.0
 }
 ```
 - **Respuesta**:
