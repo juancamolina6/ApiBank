@@ -5,7 +5,7 @@ from app.main import app
 @pytest.mark.asyncio
 async def test_create_account():
     async with AsyncClient(app=app, base_url="http://test") as client:
-        response = await client.post("/accounts", json={"holder_name": "Juan Pérez", "initial_balance": 1000.0})
+        response = await client.post("/accounts", json={"holder_name": "Juan Pérez", "balance": 1000.0})
     assert response.status_code == 200
     assert "account_id" in response.json()
 
@@ -20,7 +20,7 @@ async def test_get_accounts():
 async def test_update_balance():
     # Primero creamos una cuenta
     async with AsyncClient(app=app, base_url="http://test") as client:
-        create_response = await client.post("/accounts", json={"holder_name": "Carlos López", "initial_balance": 500.0})
+        create_response = await client.post("/accounts", json={"holder_name": "Carlos López", "balance": 500.0})
         account_id = create_response.json()["account_id"]
 
         # Luego actualizamos el saldo
